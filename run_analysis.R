@@ -1,0 +1,16 @@
+library(dplyr)
+data <- rbind(read.table("UCI HAR Dataset/test/X_test.txt"), read.table("UCI HAR Dataset/train/X_train.txt"))
+labels <- read.table("UCI HAR Dataset/features.txt")
+names(data) <- labels$V2
+desiredcols <- grep("std|mean", names(data))
+data <- data[,desiredcols]
+activity <- rbind(read.table("UCI HAR Dataset/test/y_test.txt"),read.table("UCI HAR Dataset/train/y_train.txt"))
+activity_labels <- read.table("UCI HAR Dataset/activity_labels.txt")
+activity <- sapply(activity$V1, function (x) x<- activity_labels$V2[x] )
+data <- cbind(activity, data)
+subject <- rbind(read.table("UCI HAR Dataset/test/subject_test.txt"),read.table("UCI HAR Dataset/train/subject_train.txt"))
+subject<- rename(subject, subject = V1)
+data <- cbind(subject, data)
+final_outcome <- data %>% group_by(subject, activity) %>% summarize_each(funs(mean))
+write.table(final_outcome, "mydata.txt", row.names = FALSE)
+print(final_outcome)
