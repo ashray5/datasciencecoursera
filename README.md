@@ -16,7 +16,7 @@ User must have dplyr package installed to run this script
 Script should be run from the same working directory where the data is present, specifically, at the same level
 as “UCI HAR Dataset” directory. The script can be executed by typing the following command on the R command line prompt:
  
-**source(run_alalysis.R)
+source(run_alalysis.R)
 
  
 ##Output
